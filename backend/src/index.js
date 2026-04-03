@@ -1,6 +1,7 @@
 require('dotenv').config();
-const express = require('express');
-const cors    = require('cors');
+const express    = require('express');
+const cors       = require('cors');
+const setupDatabase = require('../scripts/setup-db');
 
 const authRoutes          = require('./routes/auth');
 const clientesRoutes      = require('./routes/clientes');
@@ -16,10 +17,18 @@ const emailRoutes         = require('./routes/email');
 const app  = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+// CORS: aceita origem configurada ou qualquer origem em dev
+const allowedOrigins = process.env.FRONTEND_URL
+  ? [process.env.FRONTEND_URL, 'http://localhost:3000']
+  : true;
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
 app.use(express.json());
 
-app.get('/health', (_req, res) => res.json({ status: 'ok' }));
+app.get('/health', (_req, res) => res.json({ status: 'ok', env: process.env.NODE_ENV || 'development' }));
 
 app.use('/api/auth',          authRoutes);
 app.use('/api/clientes',      clientesRoutes);
@@ -32,4 +41,7 @@ app.use('/api/csv',           csvRoutes);
 app.use('/api/relatorios',    relatoriosRoutes);
 app.use('/api/email',         emailRoutes);
 
-app.listen(PORT, () => console.log(`🚀 Backend rodando na porta ${PORT}`));
+app.listen(PORT, async () => {
+  await setupDatabase();
+  console.log(`🚀 Backend rodando na porta ${PORT}`);
+});
