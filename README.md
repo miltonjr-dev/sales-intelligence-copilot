@@ -1,237 +1,144 @@
-# 🚀 Sales Intelligence Copilot
+# Sales Intelligence Copilot
 
-> Sistema fullstack de gestão comercial com inteligência artificial — gerencie leads, oportunidades e pipeline de vendas com suporte de IA.
+CRM comercial fullstack com copiloto de IA: classifica leads por temperatura, move oportunidades num Kanban e gera propostas em PDF. Um único `docker compose up` sobe Next.js 14, Express e PostgreSQL. Projeto de portfólio de [Milton Souza Macedo Junior](https://github.com/miltonjr-dev) (São Paulo) — focado em API REST autenticada, modelagem relacional e integração com OpenAI/Ollama.
 
-![Next.js](https://img.shields.io/badge/Next.js_14-black?style=for-the-badge&logo=next.js)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+[![Next.js](https://img.shields.io/badge/Next.js_14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL_16-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
 
----
+## Funcionalidades
 
-## ✨ Funcionalidades
-
-| Módulo | Descrição |
+| Módulo | O que faz |
 |--------|-----------|
-| 🌡️ **Termômetro de Leads** | Classifica leads como 🔥 Quente, 🌡️ Morno ou 🧊 Frio por prioridade e prazo |
-| 📋 **Kanban de Oportunidades** | Arraste oportunidades entre etapas do funil comercial |
-| 🏢 **Ficha Cadastral de Clientes** | CNPJ, segmento, site, resumo do atendente e histórico |
-| 🤖 **Assistente de IA** | Resumo de negociações, sugestão de próximo passo, classificação de urgência e geração de mensagem comercial |
-| 📄 **PDFs Profissionais** | Proposta comercial, resumo de negociação e relatório de pipeline |
-| 📧 **Envio de Email** | Envio de propostas e mensagens por email (Ethereal em dev, SMTP em produção) |
-| 📊 **Dashboard com Gráficos** | Métricas em tempo real, funil de vendas, metas mensais e atividade recente |
-| 📤 **Import/Export CSV** | Importação em lote de leads e exportação de pipeline |
-| 🔐 **Autenticação JWT** | Login seguro com token de 8 horas |
+| Termômetro de leads | Classifica **quente / morno / frio** por prioridade e prazo de fechamento |
+| Kanban de oportunidades | Arraste o card entre `prospecção → proposta → negociação → fechado` |
+| Ficha de clientes | Contato, CNPJ, segmento, site, resumo do atendente e histórico |
+| Assistente de IA | Resumo da negociação, próximo passo, urgência e mensagem comercial |
+| PDFs | Proposta, resumo de negociação e relatório de pipeline (PDFKit) |
+| E-mail | Envio via Ethereal em desenvolvimento (URL de preview) |
+| Dashboard | Funil, ticket médio, taxa de conversão e atividade recente |
+| CSV | Importação de leads e exportação de leads/oportunidades |
+| Auth JWT | Cadastro/login com bcrypt; token de 8 horas |
 
----
+Não há demo pública no momento. O caminho oficial é rodar localmente com Docker.
 
-## 🛠️ Stack Tecnológica
+## Como rodar
 
-**Frontend**
-- Next.js 14 (App Router) + TypeScript
-- Tailwind CSS
-- Recharts (gráficos)
-- Axios
+**Pré-requisito:** [Docker](https://docs.docker.com/get-docker/) com Compose v2.
 
-**Backend**
-- Node.js + Express
-- JWT + bcryptjs
-- PDFKit (geração de PDF)
-- Nodemailer (envio de email)
-- csv-parse (importação CSV)
-
-**Banco de Dados**
-- PostgreSQL 16
-
-**Infraestrutura**
-- Docker + Docker Compose
-
----
-
-## ⚡ Como Rodar
-
-### Pré-requisitos
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado e rodando
-
-### 1. Clonar o repositório
 ```bash
-git clone https://github.com/seu-usuario/sales-intelligence-copilot.git
+git clone https://github.com/miltonjr-dev/sales-intelligence-copilot.git
 cd sales-intelligence-copilot
-```
-
-### 2. Configurar variáveis de ambiente
-```bash
 cp .env.example .env
+docker compose up --build
 ```
 
-Edite o `.env` com suas configurações:
-```env
-JWT_SECRET=seu_segredo_super_seguro_aqui
+Na primeira subida o Postgres aplica `db/init.sql` (3 clientes, leads e oportunidades de exemplo). Não existe usuário seed — abra o frontend e clique em **Criar Conta**.
 
-# Opcional: para usar IA real
-OPENAI_API_KEY=sk-...
+| Serviço | URL |
+|---------|-----|
+| Frontend | http://localhost:3000 |
+| Backend | http://localhost:3001 |
+| Health check | http://localhost:3001/health |
+| PostgreSQL | `localhost:5432` (user/senha padrão: `sic` / `sic123`) |
+
+`JWT_SECRET` no `.env` é obrigatório. `OPENAI_API_KEY` é opcional: sem ela, o restante do CRM funciona; o assistente só responde se houver OpenAI ou Ollama.
+
+Para parar: `docker compose down`. Volumes do banco persistem até `docker compose down -v`.
+
+## Arquitetura
+
+```mermaid
+flowchart LR
+  Browser["Browser"] --> FE["Next.js 14 :3000"]
+  FE -->|"REST + JWT"| BE["Express :3001"]
+  BE --> PG[("PostgreSQL 16")]
+  BE -.-> OA["OpenAI gpt-4o-mini"]
+  BE -.-> OL["Ollama llama3"]
+  BE --> Mail["Nodemailer / Ethereal"]
 ```
 
-### 3. Subir com Docker
-```bash
-docker-compose up --build
+```
+Browser ──► frontend (App Router, Tailwind, Axios)
+                │
+                ▼
+           backend (Express)
+           ├── /api/auth          JWT + bcrypt
+           ├── /api/leads         CRUD + temperatura
+           ├── /api/clientes      ficha cadastral
+           ├── /api/oportunidades funil / Kanban
+           ├── /api/historico     timeline
+           ├── /api/metrics       dashboard
+           ├── /api/ia            OpenAI ou Ollama
+           ├── /api/relatorios    PDFs
+           ├── /api/email         Ethereal
+           └── /api/csv           import / export
+                │
+                ▼
+           PostgreSQL 16  (schema em db/init.sql)
 ```
 
-Aguarde todos os containers subirem (~1 min na primeira vez).
+Documentação completa das rotas: **[docs/API.md](docs/API.md)**.
 
-| Serviço   | URL                   |
-|-----------|-----------------------|
-| 🌐 Frontend  | http://localhost:3000 |
-| ⚙️ Backend   | http://localhost:3001 |
-| 🐘 PostgreSQL | localhost:5432        |
+## Stack
 
-### 4. Criar conta e acessar
-Acesse **http://localhost:3000** → clique em **"Criar Conta"** → faça login.
+| Camada | Tecnologia |
+|--------|------------|
+| Frontend | Next.js 14 (App Router), TypeScript, Tailwind CSS, Recharts, Axios |
+| Backend | Node.js, Express, JWT, bcryptjs, PDFKit, Nodemailer, csv-parse |
+| Banco | PostgreSQL 16 |
+| Infra | Docker Compose (`frontend` + `backend` + `db`) |
 
----
-
-## 🗂️ Estrutura do Projeto
+## Estrutura
 
 ```
 sales-intelligence-copilot/
-├── backend/
-│   ├── Dockerfile
-│   ├── package.json
-│   └── src/
-│       ├── index.js              # Entry point Express
-│       ├── db/index.js           # Conexão PostgreSQL
-│       ├── middleware/auth.js    # Validação JWT
-│       ├── services/ia.js        # OpenAI / Ollama
-│       └── routes/
-│           ├── auth.js           # Login / Registro
-│           ├── leads.js          # CRUD + temperatura
-│           ├── clientes.js       # CRUD + ficha cadastral
-│           ├── oportunidades.js  # CRUD + funil
-│           ├── historico.js      # Timeline de interações
-│           ├── metrics.js        # Dashboard metrics
-│           ├── ia.js             # Assistente IA
-│           ├── relatorios.js     # Geração de PDFs
-│           ├── email.js          # Envio de email
-│           └── csv.js            # Import/Export CSV
-├── frontend/
-│   ├── Dockerfile
-│   ├── app/
-│   │   ├── page.tsx              # Home / Landing
-│   │   ├── login/                # Autenticação
-│   │   ├── dashboard/            # Métricas e gráficos
-│   │   ├── leads/                # Lista + detalhe do lead
-│   │   ├── clientes/             # Lista + ficha do cliente
-│   │   ├── oportunidades/        # Kanban + lista
-│   │   ├── assistente/           # Chat com IA
-│   │   └── relatorios/           # Download de PDFs
-│   ├── components/
-│   │   ├── Sidebar.tsx
-│   │   ├── ModalNovoLead.tsx
-│   │   ├── ModalEditarOportunidade.tsx
-│   │   └── ModalEmail.tsx
-│   └── lib/api.ts                # Axios + interceptor JWT
-├── db/
-│   └── init.sql                  # Schema + dados de exemplo
+├── backend/src/           API Express (rotas, JWT, IA, PDFs)
+├── frontend/app/          Páginas Next.js (dashboard, leads, kanban, IA)
+├── frontend/components/   Sidebar e modais
+├── db/init.sql            Schema + seed (clientes/leads/oportunidades)
+├── docs/API.md            Contratos HTTP
 ├── docker-compose.yml
 ├── .env.example
-└── README.md
+└── LICENSE
 ```
 
----
+## Temperatura dos leads
 
-## 📡 API Endpoints
+| Temperatura | Critério (implementado em `GET /api/leads`) |
+|-------------|---------------------------------------------|
+| Quente | `prioridade >= 8` **ou** fechamento em até 14 dias |
+| Morno | `prioridade` entre 5 e 7 |
+| Frio | `prioridade < 5` |
 
-### Autenticação
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| POST | `/api/auth/register` | Cadastrar usuário |
-| POST | `/api/auth/login` | Login (retorna JWT) |
+## Assistente de IA
 
-### Leads
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/api/leads` | Listar leads com temperatura |
-| GET | `/api/leads/:id` | Detalhe do lead |
-| POST | `/api/leads` | Criar lead |
-| PUT | `/api/leads/:id` | Atualizar lead |
-| DELETE | `/api/leads/:id` | Remover lead |
+O serviço prioriza OpenAI quando `OPENAI_API_KEY` está preenchida; senão tenta Ollama.
 
-### Oportunidades
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/api/oportunidades` | Listar (filtros: estagio, lead_id, cliente_id) |
-| PUT | `/api/oportunidades/:id` | Atualizar (suporte a atualização parcial) |
-
-### Relatórios / PDFs
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | `/api/relatorios/proposta/:id` | PDF da proposta comercial |
-| GET | `/api/relatorios/negociacao/:leadId` | PDF do resumo de negociação |
-| GET | `/api/relatorios/pipeline` | PDF do pipeline completo |
-
-### IA
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| POST | `/api/ia/resumir` | Resumir negociação |
-| POST | `/api/ia/proximo-passo` | Sugerir próximo passo |
-| POST | `/api/ia/urgencia` | Classificar urgência |
-| POST | `/api/ia/mensagem` | Gerar mensagem comercial |
-
-### CSV
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| POST | `/api/csv/leads` | Importar leads via CSV |
-| GET | `/api/csv/export` | Exportar leads como CSV |
-| GET | `/api/csv/export/oportunidades` | Exportar oportunidades como CSV |
-
----
-
-## 🤖 Configuração de IA
-
-O assistente suporta dois modos configuráveis via `.env`:
-
-**OpenAI (recomendado para produção)**
 ```env
-OPENAI_API_KEY=sk-sua-chave-aqui
-```
+# OpenAI
+OPENAI_API_KEY=sk-...
 
-**Ollama (local/gratuito)**
-```bash
-ollama pull llama3
-```
-```env
+# Ollama (no host, visto de dentro do Compose)
 OLLAMA_BASE_URL=http://host.docker.internal:11434
 OLLAMA_MODEL=llama3
 ```
 
----
+```bash
+ollama pull llama3
+```
 
-## 🌡️ Sistema de Temperatura de Leads
+## Deploy
 
-| Temperatura | Critério |
-|-------------|----------|
-| 🔥 Quente | Prioridade ≥ 8 **ou** fechamento em menos de 14 dias |
-| 🌡️ Morno | Prioridade entre 5 e 7 |
-| 🧊 Frio | Prioridade < 5 |
+Não há URL de produção neste repositório. O código já traz `frontend/vercel.json` e `backend/railway.json` como ponto de partida (Vercel + Railway + Postgres gerenciado). URLs de exemplo comentadas ficam no `.env.example` — não use placeholders como homepage do GitHub.
 
----
+## Licença
 
-## 🚢 Deploy
+[MIT](./LICENSE) © Milton Souza Macedo Junior.
 
-| Serviço | Plataforma sugerida |
-|---------|-------------------|
-| Frontend | [Vercel](https://vercel.com) |
-| Backend | [Railway](https://railway.app) |
-| Banco de dados | [Supabase](https://supabase.com) ou Railway PostgreSQL |
-
----
-
-## 📝 Licença
-
-MIT — sinta-se livre para usar, modificar e distribuir.
-
----
-
-> **Projeto de portfólio** — desenvolvido para demonstrar habilidades em desenvolvimento fullstack, integração com IA e gestão comercial.
-
+**Autor:** [miltonjr-dev](https://github.com/miltonjr-dev) · junior fullstack · São Paulo.
