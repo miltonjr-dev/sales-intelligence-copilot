@@ -16,7 +16,7 @@ CRM comercial fullstack com copiloto de IA: classifica leads por temperatura, mo
 | Módulo | O que faz |
 |--------|-----------|
 | Termômetro de leads | Classifica **quente / morno / frio** por prioridade e prazo de fechamento |
-| Kanban de oportunidades | Arraste o card entre `prospecção → proposta → negociação → fechado` |
+| Kanban de oportunidades | Arraste o card entre `prospecção → proposta → negociação → fechado_ganho / fechado_perdido` |
 | Ficha de clientes | Contato, CNPJ, segmento, site, resumo do atendente e histórico |
 | Assistente de IA | Resumo da negociação, próximo passo, urgência e mensagem comercial |
 | PDFs | Proposta, resumo de negociação e relatório de pipeline (PDFKit) |
@@ -53,7 +53,7 @@ Na primeira subida o Postgres aplica `db/init.sql` (3 clientes, leads e oportuni
 | Frontend | http://localhost:3000 |
 | Backend | http://localhost:3001 |
 | Health check | http://localhost:3001/health |
-| PostgreSQL | `localhost:5432` (user/senha padrão: `sic` / `sic123`) |
+| PostgreSQL | `localhost:5432` (usuário e senha no `.env.example`) |
 
 `JWT_SECRET` no `.env` é obrigatório. `OPENAI_API_KEY` é opcional: sem ela, o restante do CRM funciona; o assistente só responde se houver OpenAI ou Ollama.
 
