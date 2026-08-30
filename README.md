@@ -27,6 +27,14 @@ CRM comercial fullstack com copiloto de IA: classifica leads por temperatura, mo
 
 Não há demo pública no momento. O caminho oficial é rodar localmente com Docker.
 
+## Interface
+
+Landing (não autenticado) e tela de login — capturadas do Next.js real em `localhost:3000`.
+
+![Landing do Sales Intelligence Copilot](docs/screenshots/landing.png)
+
+![Tela de login](docs/screenshots/login.png)
+
 ## Como rodar
 
 **Pré-requisito:** [Docker](https://docs.docker.com/get-docker/) com Compose v2.
@@ -103,6 +111,7 @@ sales-intelligence-copilot/
 ├── frontend/components/   Sidebar e modais
 ├── db/init.sql            Schema + seed (clientes/leads/oportunidades)
 ├── docs/API.md            Contratos HTTP
+├── docs/screenshots/      Landing e login (UI real)
 ├── docker-compose.yml
 ├── .env.example
 └── LICENSE
