@@ -2,6 +2,8 @@
   "name": "sic-frontend",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "author": "Milton Souza Macedo Junior",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

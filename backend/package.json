@@ -2,6 +2,8 @@
   "name": "sic-backend",
   "version": "1.0.0",
   "description": "Sales Intelligence Copilot — Backend API",
+  "license": "MIT",
+  "author": "Milton Souza Macedo Junior",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
